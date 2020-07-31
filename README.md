@@ -1,10 +1,12 @@
 # COVID-19 derivative graphs
 
+![Total confirmed COVID-19 cases, per state, per-capita](docs/example-graph.png)
+
 Code to generate derivative graphs from the wonderful [JHU data], which is also
 on GitHub. Currently, this code can make:
 
 * An HTML page with a graph of total confirmed per-capita COVID-19 cases per
-  state, per day.
+  state, per day. (Example featured above.)
 * gnuplot graph of total confirmed per-capita COVID-19 cases per state, per
   day.
 * gnuplot graph of daily confirmed per-capita COVID-19 cases per state, per
@@ -28,7 +30,8 @@ are absolute, not per-capita.
 
        make gnuplot html
 
-3. There should now be a `page.html`; just open this in a modern browser.
+3. There should now be a `page.html`; just open this in a modern browser. A
+   screenshot of this page is at the top of this `README`.
 
    The gnuplot graphs it generates are in `plot.svg` (total per-capita
    confirmed cases) and `per-day-change.svg` (per-day per-capita confirmed
