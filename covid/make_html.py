@@ -68,8 +68,7 @@ output_dir = pathlib.Path(args.output_dir)
 if not output_dir.exists():
     os.mkdir(output_dir)
 
-template = (_TEMPLATE_DIR / 'confirmed_cases_template.html').read_text()
-output = template.replace('{{ DATA }}', output_section.getvalue())
-(output_dir / 'page.html').write_text(output)
+(output_dir / 'covid_data.js').write_text(output_section.getvalue())
 
 copy_file(_TEMPLATE_DIR / 'covid.js', output_dir / 'covid.js')
+copy_file(_TEMPLATE_DIR / 'confirmed_cases_template.html', output_dir / 'page.html')
