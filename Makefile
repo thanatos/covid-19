@@ -7,4 +7,6 @@ update-jhu:
 gnuplot:
 	python3 process_data.py
 html:
-	python3 -m covid.make_html > page.html
+	python3 -m covid.make_html html
+
+.PHONY: html

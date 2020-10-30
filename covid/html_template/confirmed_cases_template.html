@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+body {
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+#main {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+}
+#chart {
+	flex-grow: 1;
+}
+#controls {
+	overflow-y: scroll;
+	padding-top: .5em;
+	padding-right: .2em;
+	max-width: 20em;
+}
+#controls svg {
+	height: 1em;
+	width: 2em;
+	vertical-align: middle;
+}
+label {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: .5em;
+}
+label:hover {
+	background: Highlight;
+	color: HighlightText;
+	border-radius: .45em;
+}
+#chart g.label line {
+	stroke: black;
+	stroke-width: 1px;
+}
+#chart g.label {
+	dominant-baseline: middle;
+	x: 5;
+	font-family: sans-serif;
+	font-size: smaller;
+}
+</style>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script type="text/javascript">
+{{ DATA }}
+</script>
+<script src="covid.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="main">
+<svg id="chart">
+<defs>
+<!-- circle -->
+<circle id="point-0" cx="0" cy="0" r="5" />
+<!-- square -->
+<polygon id="point-1" points="-0.7071067811865475,-0.7071067811865475 0.7071067811865475,-0.7071067811865475 0.7071067811865475,0.7071067811865475 -0.7071067811865475,0.7071067811865475" transform="scale(5)" />
+<!-- triangle -->
+<polygon id="point-2" points="0,-1 0.8660254037844387,0.5 -0.8660254037844387,0.5" transform="scale(5)" />
+<!-- diamond -->
+<polygon id="point-3" points="0,-1 1,0 0,1 -1,0" transform="scale(5)" />
+<!-- upside down triangle -->
+<polygon id="point-4" points="0,1 0.8660254037844387,-0.5 -0.8660254037844387,-0.5" transform="scale(5)" />
+</defs>
+</svg>
+<form id="controls">
+<label style="display: flex"><input type="checkbox" style="align-self: first baseline">Show 14-day moving window of total new cases</label>
+<button onclick="return eventErrorWrap(() => selectAllOrNone(true));">Select All</button>
+<button onclick="return eventErrorWrap(() => selectAllOrNone(false));">Select None</button>
+<br>
+</form>
+</div>
+</body>
+</html>

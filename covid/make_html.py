@@ -1,7 +1,9 @@
+import argparse
 import contextlib
 import csv
 import io
 import json
+import os
 import pathlib
 import re
 
@@ -52,7 +54,22 @@ for abbrev in PLOT_STATES:
 output_section.write('};\n')
 
 _MODULE = pathlib.Path(__file__).parent
+_TEMPLATE_DIR = _MODULE / 'html_template'
 
-template = (_MODULE / 'confirmed_cases_template.html').read_text()
+def copy_file(src, dst):
+    dst.write_bytes(src.read_bytes())
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('output_dir')
+args = parser.parse_args()
+
+output_dir = pathlib.Path(args.output_dir)
+if not output_dir.exists():
+    os.mkdir(output_dir)
+
+template = (_TEMPLATE_DIR / 'confirmed_cases_template.html').read_text()
 output = template.replace('{{ DATA }}', output_section.getvalue())
-print(output, end='')
+(output_dir / 'page.html').write_text(output)
+
+copy_file(_TEMPLATE_DIR / 'covid.js', output_dir / 'covid.js')

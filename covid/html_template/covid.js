@@ -1,54 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style type="text/css">
-body {
-	height: 100vh;
-	margin: 0;
-	padding: 0;
-}
-#main {
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-}
-#chart {
-	flex-grow: 1;
-}
-#controls {
-	overflow-y: scroll;
-}
-#controls svg {
-	height: 1em;
-	width: 2em;
-	vertical-align: middle;
-}
-label {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-right: .5em;
-}
-label:hover {
-	background: Highlight;
-	color: HighlightText;
-	border-radius: .45em;
-}
-#chart g.label line {
-	stroke: black;
-	stroke-width: 1px;
-}
-#chart g.label {
-	dominant-baseline: middle;
-	x: 5;
-	font-family: sans-serif;
-	font-size: smaller;
-}
-</style>
-<script src="https://d3js.org/d3.v4.js"></script>
-<script type="text/javascript">
-{{ DATA }}
-
 function hasOwnProp(obj, k) {
 	return Object.prototype.hasOwnProperty.call(obj, k);
 }
@@ -230,6 +179,7 @@ function makeStateControls() {
 		}
 		const checkbox = document.createElement('input');
 		checkbox.setAttribute('type', 'checkbox');
+		checkbox.setAttribute('data-check-type', 'state-toggle');
 		checkbox.checked = true;
 
 		const key = document.createElementNS(SVG_NS, 'svg');
@@ -284,7 +234,7 @@ function stateControlOnInput(event) {
 
 function selectAllOrNone(new_state) {
 	const form = document.getElementById('controls');
-	const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+	const checkboxes = form.querySelectorAll('input[type="checkbox"][data-check-type="state-toggle"]');
 	for(const checkbox of checkboxes) {
 		const state = checkbox.parentElement.getAttribute('data-state');
 		const path = d3.select('#chart').select(`g[data-state="${state}"]`);
@@ -299,29 +249,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 	makeStateControls();
 	render();
 });
-</script>
-</head>
-<body>
-<div id="main">
-<svg id="chart">
-<defs>
-<!-- circle -->
-<circle id="point-0" cx="0" cy="0" r="5" />
-<!-- square -->
-<polygon id="point-1" points="-0.7071067811865475,-0.7071067811865475 0.7071067811865475,-0.7071067811865475 0.7071067811865475,0.7071067811865475 -0.7071067811865475,0.7071067811865475" transform="scale(5)" />
-<!-- triangle -->
-<polygon id="point-2" points="0,-1 0.8660254037844387,0.5 -0.8660254037844387,0.5" transform="scale(5)" />
-<!-- diamond -->
-<polygon id="point-3" points="0,-1 1,0 0,1 -1,0" transform="scale(5)" />
-<!-- upside down triangle -->
-<polygon id="point-4" points="0,1 0.8660254037844387,-0.5 -0.8660254037844387,-0.5" transform="scale(5)" />
-</defs>
-</svg>
-<form id="controls">
-<button onclick="selectAllOrNone(true); return false;">Select All</button>
-<button onclick="selectAllOrNone(false); return false;">Select None</button>
-<br>
-</form>
-</div>
-</body>
-</html>
+
+function eventErrorWrap(fn) {
+	try {
+		fn()
+	} catch(err) {
+		console.log(err);
+	}
+	return false;
+}
